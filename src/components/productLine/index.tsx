@@ -1,20 +1,28 @@
 
-export const ProductLine = () => {
+interface ProductLineProps {
+  id: number;
+  title: string;
+  price: number;
+  cover: string;
+  amount: number
+}
+
+export const ProductLine = (product: ProductLineProps) => {
   return (
     <section className="flex items-center justify-between border-b-2 border-gray-300">
       <img
-        src="https://images.tcdn.com.br/img/img_prod/167552/fone_de_ouvido_apple_airpods_pro_mwp22be_a_13305_1_49b712f1e0c3353c688e35bd6034170e.jpg"
-        alt="Logo produto"
+        src={product.cover}
+        alt={product.title}
         className="w-28"
       />
-      <strong>Preço: R$1.000</strong>
+      <strong>Preço: {product.price.toFixed(2)}</strong>
       <div className="flex items-center justify-center gap-3">
         <button className="bg-slate-600 px-2 rounded text-white font-medium flex items-center justify-center">-</button>
         1
         <button className="bg-slate-600 px-2 rounded text-white font-medium flex items-center justify-center">+</button>
       </div>
 
-      <strong>SubTotal: R$1.000</strong>
+      <strong>SubTotal: {(product.price * product.amount).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</strong>
     </section>
   )
 }

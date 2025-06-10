@@ -25,10 +25,8 @@ export const CartContext = createContext([] as unknown as CartContextData)
 
 const CartProvider = ({ children }: CartProviderProps) => {
   const [cart, setCart] = useState<CartItem[]>([]);
-  console.log(cart)
 
   const addItemCard = (newItem: CartItem) => {
-    console.log("newItem", newItem)
     const indexItem = cart.findIndex((item) => newItem.id === item.id)
 
     if (indexItem !== -1) {
