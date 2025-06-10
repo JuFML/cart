@@ -28,8 +28,8 @@ export const Home = () => {
         <h1 className="font-bold text-2xl mb-4 mt-10 text-center">Produtos em alta</h1>
         <section className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-5">
           {products.length > 0 &&
-            products.map(({ id, title, price, cover }) => (
-              <ProductCard key={id} title={title} price={price} cover={cover} />
+            products.map((product) => (
+              <ProductCard key={product.id} title={product.title} price={product.price} cover={product.cover} description={product.description} id={product.id} />
             ))
           }
         </section>
