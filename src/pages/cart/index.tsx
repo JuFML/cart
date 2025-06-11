@@ -5,8 +5,7 @@ import { CartContext, type CartItem } from "../../contexts/CartContext"
 import { Link } from "react-router"
 
 export const Cart = () => {
-  const { cart } = useContext(CartContext)
-  console.log("cart", cart)
+  const { cart, cartTotal } = useContext(CartContext)
 
   return (
     <main className="w-full max-w-7xl mx-auto">
@@ -14,12 +13,12 @@ export const Cart = () => {
         <>
           {
             cart.map((item: CartItem) => (
-              <ProductLine key={item.id} id={item.id} title={item.title} price={item.price} cover={item.cover} amount={item.amount} />
+              <ProductLine key={item.id} {...item} />
             ))
           }
 
 
-          <p className="font-bold mt-4">Total: R$1.000</p>
+          <p className="font-bold mt-4">Total: {cartTotal.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</p>
         </>
       ) :
         (

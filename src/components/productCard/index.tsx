@@ -1,6 +1,7 @@
 import { BsCartPlus } from "react-icons/bs"
 import { CartContext, type CartItem } from "../../contexts/CartContext"
 import { useContext } from "react";
+import { toast } from "react-toastify";
 
 interface ProductCardProps {
   id: number;
@@ -12,7 +13,7 @@ interface ProductCardProps {
 
 
 export const ProductCard = (product: ProductCardProps) => {
-  const { addItemCard } = useContext(CartContext)
+  const { addItemCart } = useContext(CartContext)
 
   const handleAddCard = (product: ProductCardProps) => {
     const newProduct: CartItem = {
@@ -21,7 +22,8 @@ export const ProductCard = (product: ProductCardProps) => {
       total: product.price
 
     }
-    addItemCard(newProduct)
+    addItemCart(newProduct)
+    toast.success('Item adicionado com sucesso!')
   }
 
   return (

@@ -1,9 +1,11 @@
-import { createContext, useState, type ReactNode } from "react";
+import { createContext, useEffect, useState, type ReactNode } from "react";
 
 interface CartContextData {
   cart: CartItem[];
   cartAmount: number;
-  addItemCard: (newItem: CartItem) => void;
+  cartTotal: number;
+  addItemCart: (newItem: CartItem) => void;
+  removeItemCart: (itemId: number) => void;
 }
 
 export interface CartItem {
@@ -25,21 +27,47 @@ export const CartContext = createContext([] as unknown as CartContextData)
 
 const CartProvider = ({ children }: CartProviderProps) => {
   const [cart, setCart] = useState<CartItem[]>([]);
+  const [cartTotal, setCartTotal] = useState<number>(0);
+  console.log("cartTotal", cartTotal)
 
-  const addItemCard = (newItem: CartItem) => {
+  const addItemCart = (newItem: CartItem) => {
     const indexItem = cart.findIndex((item) => newItem.id === item.id)
 
     if (indexItem !== -1) {
       const listCard = [...cart]
       listCard[indexItem].amount = listCard[indexItem].amount + 1
       listCard[indexItem].total = listCard[indexItem].amount * listCard[indexItem].price
+      setCart(listCard)
       return
     }
-    setCart((products => [...products, newItem]))
+    setCart((products) => [...products, newItem])
   }
 
+  const removeItemCart = (itemId: number) => {
+    const listCard = [...cart]
+    const indexItem = cart.findIndex((item) => itemId === item.id)
+
+    if (listCard[indexItem].amount > 1) {
+      listCard[indexItem].amount = listCard[indexItem].amount - 1
+      listCard[indexItem].total = listCard[indexItem].amount * listCard[indexItem].price
+      setCart(listCard)
+      return
+    }
+    setCart(listCard.filter(item => item.id !== itemId))
+  }
+
+  const updateCartTotal = () => {
+    setCartTotal(cart.reduce((acc, current) => acc + current.total, 0))
+  }
+
+  useEffect(() => {
+    updateCartTotal()
+  }, [cart])
+
+
+
   return (
-    <CartContext.Provider value={{ cart, cartAmount: cart.length, addItemCard }}>
+    <CartContext.Provider value={{ cart, cartAmount: cart.length, cartTotal, addItemCart, removeItemCart }}>
       {children}
     </CartContext.Provider>
   )
