@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { ProductCard } from "../../components/productCard"
 import { api } from "../../services/api";
 
-interface ProductProps {
+export interface ProductProps {
   id: number;
   title: string;
   description: string;
